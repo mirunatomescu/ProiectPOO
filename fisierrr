@@ -390,3 +390,170 @@ int main() {
 //3, Benzema, Forward, 80.0
 //12, Modric, Midfielder, 65.0
 //9, Haaland, Forward, 180.0
+
+//varianta 2 heap cu heapify
+#define _CRT_SECURE_NO_WARNINGS
+//#include <stdio.h>
+//#include <stdlib.h>
+//#include <string.h>
+//
+//// Structura pentru jucator
+//typedef struct {
+//    unsigned int playerID;
+//    char* name;
+//    char* position;
+//    float marketValue;
+//} FootballPlayer;
+//
+//// Structura pentru heap
+//typedef struct {
+//    FootballPlayer* vect;
+//    int dim;
+//} Heap;
+//
+//// Funcie pentru iniializarea unui juctor
+//FootballPlayer initPlayer(unsigned int id, const char* name, const char* pos, float value) {
+//    FootballPlayer p;
+//    p.playerID = id;
+//    p.name = _strdup(name);
+//    p.position = _strdup(pos);
+//    p.marketValue = value;
+//    return p;
+//}
+//
+//// Funcie pentru eliberarea memoriei unui juctor
+//void freePlayer(FootballPlayer* p) {
+//    free(p->name);
+//    free(p->position);
+//}
+//
+//// Funcie pentru interschimbarea a doi juctori
+//void swap(FootballPlayer* a, FootballPlayer* b) {
+//    FootballPlayer tmp = *a;
+//    *a = *b;
+//    *b = tmp;
+//}
+//
+//// Funcie heapify pentru meninerea proprietii de max-heap
+//void heapify(Heap* h, int i) {
+//    int largest = i;
+//    int left = 2 * i + 1;
+//    int right = 2 * i + 2;
+//
+//    if (left < h->dim && h->vect[left].marketValue > h->vect[largest].marketValue)
+//        largest = left;
+//
+//    if (right < h->dim && h->vect[right].marketValue > h->vect[largest].marketValue)
+//        largest = right;
+//
+//    if (largest != i) {
+//        swap(&h->vect[i], &h->vect[largest]);
+//        heapify(h, largest);
+//    }
+//}
+//
+//// Funcie pentru inserarea unui juctor în heap
+//void insertHeap(Heap* h, FootballPlayer p) {
+//    h->vect = realloc(h->vect, (h->dim + 1) * sizeof(FootballPlayer));
+//    h->vect[h->dim] = p;
+//    int i = h->dim;
+//    h->dim++;
+//
+//    // Reface proprietatea de max-heap
+//    while (i > 0 && h->vect[(i - 1) / 2].marketValue < h->vect[i].marketValue) {
+//        swap(&h->vect[i], &h->vect[(i - 1) / 2]);
+//        i = (i - 1) / 2;
+//    }
+//}
+//
+//// Funcie pentru afiarea unui juctor
+//void printPlayer(FootballPlayer p) {
+//    printf("ID: %u | Name: %s | Position: %s | Value: %.2f mil\n",
+//        p.playerID, p.name, p.position, p.marketValue);
+//}
+//
+//// Funcie pentru afiarea heap-ului
+//void printHeap(Heap h) {
+//    for (int i = 0; i < h.dim; i++) {
+//        printPlayer(h.vect[i]);
+//    }
+//}
+//
+//// Funcie pentru citirea juctorilor din fiier
+//void readFromFile(const char* filename, Heap* h) {
+//    FILE* f = fopen(filename, "r");
+//    if (!f) {
+//        perror("Eroare la deschiderea fișierului");
+//        return;
+//    }
+//
+//    unsigned int id;
+//    char name[50], pos[30];
+//    float value;
+//
+//    while (fscanf(f, "%u,%[^,],%[^,],%f\n", &id, name, pos, &value) == 4) {
+//        FootballPlayer p = initPlayer(id, name, pos, value);
+//        insertHeap(h, p);
+//    }
+//
+//    fclose(f);
+//}
+//
+//// Funcie pentru nurarea juctorilor pe o anumit pozie
+//int countPosition(Heap h, const char* poz) {
+//    int count = 0;
+//    for (int i = 0; i < h.dim; i++) {
+//        if (strcmp(h.vect[i].position, poz) == 0)
+//            count++;
+//    }
+//    return count;
+//}
+//
+//// Funcie pentru eliminarea juctorilor cu valoare de pia sub o anumit valoare
+//void removePlayersBelowValue(Heap* h, float minValue) {
+//    int newDim = 0;
+//    for (int i = 0; i < h->dim; i++) {
+//        if (h->vect[i].marketValue >= minValue) {
+//            h->vect[newDim++] = h->vect[i];
+//        }
+//        else {
+//            freePlayer(&h->vect[i]);
+//        }
+//    }
+//    h->dim = newDim;
+//    h->vect = realloc(h->vect, h->dim * sizeof(FootballPlayer));
+//
+//    // Reface proprietatea de max-heap pentru ntregul heap
+//    for (int i = h->dim / 2 - 1; i >= 0; i--) {
+//        heapify(h, i);
+//    }
+//}
+//
+//// Funcțe pentru eliberarea memoriei heap-ului
+//void freeHeap(Heap* h) {
+//    for (int i = 0; i < h->dim; i++) {
+//        freePlayer(&h->vect[i]);
+//    }
+//    free(h->vect);
+//    h->vect = NULL;
+//    h->dim = 0;
+//}
+//
+//int main() {
+//    Heap h = { .vect = NULL, .dim = 0 };
+//    readFromFile("players.txt", &h);
+//
+//    printf("=== HEAP INAINTE DE FILTRARE ===\n");
+//    printHeap(h);
+//
+//    printf("\nNumăr de jucători pe poziția 'Forward': %d\n", countPosition(h, "Forward"));
+//
+//    // Eliminjuctorii cu valoare de pia sub 100 milioane
+//    removePlayersBelowValue(&h, 100.0f);
+//
+//    printf("\n=== HEAP DUPĂ FILTRARE (marketValue >= 100) ===\n");
+//    printHeap(h);
+//
+//    freeHeap(&h);
+//    return 0;
+//}
